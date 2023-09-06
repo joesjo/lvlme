@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Become Superhuman</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles/main.css">
+    <script defer src="/static/scripts/main.js"></script>
+</head>
+<body>
+    <h1 class="title">Become Superhuman</h1>
+    {% if skills|length > 0 %}
+        <div class="skill-container">
+            {% for batch in skills|batch(batch_size) %}
+                <div class="skill-column">
+                    {% for skill in batch %}
+                        <div class="skill-item">
+                            {{ skill.name }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No skills yet.</p>
+    {% endif %}
+</body>
+</html>

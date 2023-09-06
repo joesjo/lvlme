@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+import math
 
 app = Flask(__name__)
 
@@ -12,7 +13,8 @@ def first_page():
     for skill in skills:
         skill.required_experience = 100 * pow(1.1, skill.level-1)
         skill.required_experience = round(skill.required_experience, 2)
-    return render_template("front.html", skills=skills, totalLevel=sum(skill.level for skill in skills))
+    batch_size = math.ceil(len(skills)/3)
+    return render_template("index.html", skills=skills, totalLevel=sum(skill.level for skill in skills), batch_size=batch_size)
     
 @app.route('/skills', methods=['GET'])
 def get_skills():
@@ -26,7 +28,6 @@ def update_skill_up():
     if skill:
         skill.level += 1
         db.session.commit()
-    skills = Skill.query.all()
     return redirect(url_for('first_page'))
 
 @app.route('/update_skill_down', methods=['POST'])
@@ -36,7 +37,6 @@ def update_skill_down():
     if skill and skill.level > 1:
         skill.level -= 1
         db.session.commit()
-    skills = Skill.query.all()
     return redirect(url_for('first_page'))
 
 @app.route('/update_experience/<int:skill_id>', methods=['POST'])
@@ -44,16 +44,15 @@ def update_experience_route(skill_id):
     minutes_spent = request.form.get('minutes_spent')
     if minutes_spent.isdigit():
         update_experience(skill_id, int(minutes_spent))
-        return redirect(url_for('first_page'))
-    else:
-        return "Please enter a valid number for minutes spent"
+    return redirect(url_for('first_page'))
     
 @app.route('/complete_challenge/<int:challenge_id>', methods=['POST'])
 def complete_challenge(challenge_id):
     completed = request.form.get('completed') == 'true'
     challenge = Challenge.query.get(challenge_id)
     if challenge and completed:
-        update_experience(challenge_id)
+        # update_experience(challenge_id)
+        pass
     return redirect(url_for('first_page'))
 
 class Skill(db.Model):
@@ -74,12 +73,8 @@ class Challenge(db.Model):
 
 def update_experience(skill_id, minutes_spent):
     skill = Skill.query.get(skill_id)
-    skill_level_multiplier = 1.0 
-    current_skill_level = skill.level
-    experience_points = ((minutes_spent) * (skill_level_multiplier * current_skill_level))
     corresponding_skill = skill
-    int_experience_points = experience_points
-    corresponding_skill.experience += int(experience_points)
+    corresponding_skill.experience += minutes_spent
     base_experience = 100
     newexperience = base_experience * pow(1.1, corresponding_skill.level-1)
     newexperience = round(newexperience, 2)
@@ -87,9 +82,6 @@ def update_experience(skill_id, minutes_spent):
         corresponding_skill.level += 1
         corresponding_skill.experience -= newexperience
     db.session.commit()
-    
-
-
 
 if __name__ == '__main__':
     with app.app_context(): db.create_all()
