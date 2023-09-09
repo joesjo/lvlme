@@ -1,88 +1,13 @@
-from flask import Flask, jsonify, request, render_template, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
-import math
+from flask import Flask
+from models.database import db
+from routes.user_routes import user_routes
 
 app = Flask(__name__)
-
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///skills.db'
-db = SQLAlchemy(app)
 
-@app.route('/')
-def first_page():
-    skills = Skill.query.all()
-    for skill in skills:
-        skill.required_experience = 100 * pow(1.1, skill.level-1)
-        skill.required_experience = round(skill.required_experience, 2)
-    batch_size = math.ceil(len(skills)/3)
-    return render_template("index.html", skills=skills, totalLevel=sum(skill.level for skill in skills), batch_size=batch_size)
-    
-@app.route('/skills', methods=['GET'])
-def get_skills():
-    skills = Skill.query.all()
-    return jsonify([{'name': skill.name, 'level': skill.level} for skill in skills])
+db.init_app(app)
 
-@app.route('/update_skill_up', methods=['POST'])
-def update_skill_up():
-    data = request.form
-    skill = Skill.query.filter_by(name=data['skill']).first()
-    if skill:
-        skill.level += 1
-        db.session.commit()
-    return redirect(url_for('first_page'))
-
-@app.route('/update_skill_down', methods=['POST'])
-def update_skill_down():
-    data = request.form
-    skill = Skill.query.filter_by(name=data['skill']).first()
-    if skill and skill.level > 1:
-        skill.level -= 1
-        db.session.commit()
-    return redirect(url_for('first_page'))
-
-@app.route('/update_experience/<int:skill_id>', methods=['POST'])
-def update_experience_route(skill_id):
-    minutes_spent = request.form.get('minutes_spent')
-    if minutes_spent.isdigit():
-        update_experience(skill_id, int(minutes_spent))
-    return redirect(url_for('first_page'))
-    
-@app.route('/complete_challenge/<int:challenge_id>', methods=['POST'])
-def complete_challenge(challenge_id):
-    completed = request.form.get('completed') == 'true'
-    challenge = Challenge.query.get(challenge_id)
-    if challenge and completed:
-        # update_experience(challenge_id)
-        pass
-    return redirect(url_for('first_page'))
-
-class Skill(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    level = db.Column(db.Integer, nullable=False)
-    experience = db.Column(db.Float, default=0)
-    description = db.Column(db.String(500), nullable=True)
-    challenges = db.relationship('Challenge', backref='skill', lazy=True)
-        
-class Challenge(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.String(1000), nullable=False)
-    experience = db.Column(db.Float(100), nullable=False)
-    skill_id = db.Column(db.Integer, db.ForeignKey("skill.id"), nullable=False)
-
-
-def update_experience(skill_id, minutes_spent):
-    skill = Skill.query.get(skill_id)
-    corresponding_skill = skill
-    corresponding_skill.experience += minutes_spent
-    base_experience = 100
-    newexperience = base_experience * pow(1.1, corresponding_skill.level-1)
-    newexperience = round(newexperience, 2)
-    if corresponding_skill.experience >= newexperience:
-        corresponding_skill.level += 1
-        corresponding_skill.experience -= newexperience
-    db.session.commit()
+app.register_blueprint(user_routes)
 
 if __name__ == '__main__':
-    with app.app_context(): db.create_all()
     app.run(debug=True)

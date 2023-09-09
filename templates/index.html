@@ -5,24 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Become Superhuman</title>
     <link rel="stylesheet" type="text/css" href="/static/styles/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@500&family=Signika+Negative:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Istok+Web&family=Jura:wght@500&family=Signika+Negative:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Istok+Web&family=Jost&family=Jura:wght@500&family=Signika+Negative:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script defer src="/static/scripts/main.js"></script>
 </head>
 <body>
-    <h1 class="title">Become Superhuman</h1>
-    {% if skills|length > 0 %}
-        <div class="skill-container">
-            {% for batch in skills|batch(batch_size) %}
-                <div class="skill-column">
-                    {% for skill in batch %}
-                        <div class="skill-item">
-                            {{ skill.name }}
+    <div class="corner-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="206" height="207" viewBox="0 0 206 207" fill="none">
+            <g filter="url(#filter0_d_119_639)">
+                <line x1="42.1988" y1="5.6967" x2="196.348" y2="159.846" stroke="#E9C46A" stroke-width="15"/>
+            </g>
+            <g filter="url(#filter1_d_119_639)">
+                <line x1="25.5818" y1="22.3137" x2="179.731" y2="176.463" stroke="#F4A261" stroke-width="20"/>
+            </g>
+            <g filter="url(#filter2_d_119_639)">
+                <line x1="9.3033" y1="39.2986" x2="163.303" y2="193.299" stroke="#E76F51" stroke-width="15"/>
+            </g>
+            <defs>
+                <filter id="filter0_d_119_639" x="32.8955" y="0.393402" width="172.756" height="172.756" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                    <feOffset dy="4"/>
+                    <feGaussianBlur stdDeviation="2"/>
+                    <feComposite in2="hardAlpha" operator="out"/>
+                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_119_639"/>
+                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_119_639" result="shape"/>
+                </filter>
+                <filter id="filter1_d_119_639" x="14.5107" y="15.2426" width="176.291" height="176.291" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                    <feOffset dy="4"/>
+                    <feGaussianBlur stdDeviation="2"/>
+                    <feComposite in2="hardAlpha" operator="out"/>
+                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_119_639"/>
+                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_119_639" result="shape"/>
+                </filter>
+                <filter id="filter2_d_119_639" x="0" y="33.9953" width="172.606" height="172.607" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                    <feOffset dy="4"/>
+                    <feGaussianBlur stdDeviation="2"/>
+                    <feComposite in2="hardAlpha" operator="out"/>
+                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_119_639"/>
+                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_119_639" result="shape"/>
+                </filter>
+            </defs>
+        </svg>
+    </div>
+    <div class="left-line">
+        <svg width="15" height="1024" viewBox="0 0 15 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#filter0_i_119_730)">
+        <line x1="7.5" y1="-27" x2="7.49995" y2="1073" stroke="#E76F51" stroke-width="15"/>
+        </g>
+        <defs>
+        <filter id="filter0_i_119_730" x="0" y="-27" width="17" height="1100" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+        <feOffset dx="2"/>
+        <feGaussianBlur stdDeviation="2"/>
+        <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+        <feBlend mode="normal" in2="shape" result="effect1_innerShadow_119_730"/>
+        </filter>
+        </defs>
+        </svg>
+    </div>
+    <h1 class="title">BECOME SUPERHUMAN</h1>
+    <div class="skill-container">
+        {% for skillColumn in skills %}
+            <div class="skill-column">
+                {% for skill in skillColumn %}
+                    <div class="skill-item">
+                        <div class="skill-title">
+                            <p class="skill-name">{{ skill.name }}</p>
+                            <p class="skill-level">Lvl. <span class="skill-level-span">{{ skill.level }}</span></p>
                         </div>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <p>No skills yet.</p>
-    {% endif %}
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar" style="width: {{ skill.progress }}%"></div>
+                        </div>
+                        <div class="skill-info">
+                            <form class="skill-info-submit" action="/update_experience/{{ skill.id }}" method="POST">
+                                <div class="skill-info-bar">
+                                    <p class="skill-info-bar-value">+30min</p>
+                                    <input id="minutes_spent" name="minutes_spent" type="range" min="0" max="90" value="30" class="skill-info-bar-input">
+                                </div>
+                                <div class="skill-info-submit-button">
+                                    <input type="submit" class="skill-info-submit-button" value="+"></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    <p class="level-total">TOTAL LEVEL: <span class="level-total-span">{{ total_level }}</span></p>
 </body>
 </html>
